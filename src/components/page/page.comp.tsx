@@ -233,6 +233,7 @@ const PageComp = ({ context }: IProps) => {
   async function fetchPageData(params: {
     actualMethod: 'get' | 'put' | 'post' | 'patch' | 'delete' | undefined,
     url: string,
+    queryParams: any,
     requestHeaders?: any,
     dataPath: string,
     dataTransform: any,
@@ -241,7 +242,7 @@ const PageComp = ({ context }: IProps) => {
     const result = await httpService.fetch({
       method: params.actualMethod || 'get',
       origUrl: params.url,
-      queryParams,
+      queryParams: params.queryParams,
       headers: Object.assign({}, pageHeaders, params.requestHeaders || {})
     });
     let extractedData = dataHelpers.extractDataByDataPath(result, params.dataPath);
@@ -309,10 +310,11 @@ const PageComp = ({ context }: IProps) => {
         throw new Error('Pagination not initialized.');
       }
 
-      const { url, requestHeaders, actualMethod, dataPath, sortBy, dataTransform } = getAllConfig;
+      const { url, queryParams, requestHeaders, actualMethod, dataPath, sortBy, dataTransform } = getAllConfig;
       await fetchPageData({
         actualMethod: actualMethod,
         url: url,
+        queryParams: queryParams,
         requestHeaders: requestHeaders,
         dataPath: dataPath,
         dataTransform: dataTransform,
@@ -550,11 +552,12 @@ const PageComp = ({ context }: IProps) => {
         if(!getAllConfig || !pagination?.next) {
           return;
         }
-        const { requestHeaders, actualMethod, dataPath, sortBy, dataTransform } = getAllConfig;
+        const { requestHeaders, queryParams, actualMethod, dataPath, sortBy, dataTransform } = getAllConfig;
         fetchPageData(
           {
             actualMethod: actualMethod,
             url: pagination.next,
+            queryParams: queryParams,
             requestHeaders: requestHeaders,
             dataPath: dataPath,
             dataTransform: dataTransform,
@@ -591,11 +594,12 @@ const PageComp = ({ context }: IProps) => {
         if(!getAllConfig || !pagination?.previous) {
           return;
         }
-        const { requestHeaders, actualMethod, dataPath, sortBy, dataTransform } = getAllConfig;
+        const { requestHeaders, queryParams, actualMethod, dataPath, sortBy, dataTransform } = getAllConfig;
         fetchPageData(
           {
             actualMethod: actualMethod,
             url: pagination.previous,
+            queryParams: queryParams,			
             requestHeaders: requestHeaders,
             dataPath: dataPath,
             dataTransform: dataTransform,

@@ -48,10 +48,11 @@ export const FormPopup = withAppContext(({ context, title, fields, rawData, getS
     if (getSingleConfig && getSingleConfig.url) {
       try {
         const { url, requestHeaders, actualMethod, dataPath, queryParams, responseType, dataTransform } = getSingleConfig;
+        httpService.replaceParamsInQueryParams(queryParams, finalRawData);
         const result = await httpService.fetch({
           method: actualMethod || 'get',
           origUrl: url,
-          queryParams,
+          queryParams: queryParams,
           headers: Object.assign({}, pageHeaders,  requestHeaders || {}),
           rawData,
           responseType

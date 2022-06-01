@@ -162,6 +162,7 @@ export interface IConfigGetAllMethod extends IConfigMethod {
 
 export interface IConfigGetSingleMethod extends IConfigMethod {
   dataPath?: string,
+  queryParams: IConfigInputField[],
   dataTransform?: ConfigFunction,
   responseType?: 'json' | 'text' | 'boolean' | 'status';
 }

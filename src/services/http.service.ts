@@ -47,7 +47,21 @@ class HttpService {
 
     return outputUrl;
   }
-
+  
+  public replaceParamsInQueryParams(queryParams: IQueryParam[] = [], rawData?: any): IQueryParam[] {
+    if (!rawData || typeof rawData !== 'object') {
+      return queryParams;
+    }
+	
+    for (let param of queryParams) {
+		if(rawData[param.name] !== 'undefined')
+		{
+		  param.value = rawData[param.name];
+		}
+	}
+    return queryParams;
+  }
+  
   private buildUrl(url: string, queryParams: IQueryParam[] = [], rawData?: any): string {
     if (!queryParams || !queryParams.length) {
       return this.replaceParamsInUrl(url, rawData);
