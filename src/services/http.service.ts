@@ -130,7 +130,8 @@ class HttpService {
     if (res.ok) {
       switch (responseType) {
         case 'json':
-          return await res.json();
+	  const resText = await res.text();
+          return resText.length ? JSON.parse(resText.replace(/:([0-9]{15,30})/g, ':"$1"')) : {};
         case 'text':
           return await res.text();
         case 'boolean':
